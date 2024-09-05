@@ -47,17 +47,17 @@ const App = () => {
         
         {/* Testimonials */}
         <div className="testimonials">
-          <h2>Testimonials</h2>
+          <h2><b>Testimonials</b></h2>
           <div className="testimonial-cards">
             <div className="testimonial-card">
               <img src="https://th.bing.com/th/id/OIP.G2PX9M2_Qi41AGmczBpodwHaHa?rs=1&pid=ImgDetMain"/>
-              <strong>John Cena</strong>
+              <span className='mentorName'>John Cena</span>
               <span>Mathematics Teacher</span>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio numquam praesentium est quod sapiente dignissimos modi vero temporibus blanditiis dolorum quas, consequatur id. Consequatur sint laboriosam minus iure maxime dicta?</p>
             </div>
             <div className="testimonial-card">
               <img src="https://img.freepik.com/premium-photo/friendly-positive-cute-little-white-cartoon-robot-glowing-with-blue-light_9493-23413.jpg" />
-              <span>Jane Smith</span>
+              <span className='mentorName'>Jane Smith</span>
               <span>English Teacher</span>
               <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Omnis velit animi odit dignissimos, id fugit soluta aspernatur laboriosam qui nobis.
               </p>

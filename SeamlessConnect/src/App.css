@@ -137,6 +137,7 @@ body {
   margin-left: 4px;
   font-size: medium;
   color: #212121;
+  cursor: pointer;
   background-color: beige;
   border: 2px solid #ddd; 
   border-radius: 8px;
@@ -149,8 +150,8 @@ body {
 }
 
 .testimonials h2 {
-    color: var(--black-perl);
-    font-family: Manrope GF, sans-serif;
+    color: #212121;
+    font-family: sans-serif;
     font-size: 32px;
     font-weight: 500;
     line-height: 40px;
@@ -190,10 +191,6 @@ body {
   margin-bottom: 10px;
 }
 
-.testimonial-card span {
-  font-size: 18px;
-  margin-bottom: 5px;
-}
 
 .testimonial-card span {
   font-size: 16px;
@@ -202,6 +199,12 @@ body {
 
 .testimonial-card p {
   font-size: 14px;
+}
+
+.mentorName {
+  font-size: 24px;
+  font-family: 'Gill Sans', 'Gill Sans MT';
+  margin-bottom: 5px;
 }
 
 /* Footer Styles */
