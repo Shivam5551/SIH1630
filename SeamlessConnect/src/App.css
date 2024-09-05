@@ -1,0 +1,241 @@
+
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f4f4f9; /* Light grey background color */
+}
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #212121;
+  color: #fff;
+  position: relative;
+}
+
+.logo {
+  font-size: 24px;
+  color: #00bfff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.nav {
+  display: flex;
+  gap: 15px;
+}
+
+.nav a {
+  color: #fff;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+}
+/* book a demmo button */
+.demo {
+  font-size: large;
+  padding: 0px 5px;
+  border-radius: 8px;
+  background-color: aqua;
+  box-shadow: 4px 4px 8px #ccc;
+  color: #212121;
+  border: 2px solid aqua;
+  cursor: pointer;
+}
+
+/* Main Styles */
+.main {
+  padding: 20px;
+}
+
+/* Hero Section Styles */
+.hero {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 30px;
+  margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.445); 
+  backdrop-filter: blur(80px);
+  border: 2px solid #ddd; 
+  border-radius: 8px;
+  box-shadow: 4px 4px 8px #ccc;
+}
+
+.hero h1 {
+  font-weight: 800;
+  font-size: 3.5vw;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.hero b {
+  color: rgb(4, 82, 160)
+
+}
+
+
+.description {
+  flex: 1;
+  padding: 10px;
+  margin-right: 20px;
+  padding: 20px; 
+}
+
+
+.description p {
+  font-size: 18px;
+}
+
+.image {
+  flex: 1;
+}
+
+.image img {
+  width: 100%;
+  border-radius: 8px;
+  border: #f0f solid 2px;
+  box-shadow: 4px 4px 8px rgba(70, 5, 5, 0.3);
+  max-width: 40vw;
+  height: auto;
+}
+
+/* Search Bar Styles */
+.search {
+  display: flex;
+  justify-content: center;
+  margin: 20px 20px;
+}
+
+.search input {
+  width: 50%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.searchButton {
+  padding: 10px;
+  margin-left: 4px;
+  font-size: medium;
+  color: #212121;
+  background-color: beige;
+  border: 2px solid #ddd; 
+  border-radius: 8px;
+  box-shadow: 4px 4px 8px #ccc;
+}
+
+/* Testimonials Styles */
+.testimonials {
+  padding: 20px;
+}
+
+.testimonials h2 {
+    color: var(--black-perl);
+    font-family: Manrope GF, sans-serif;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 40px;
+}
+
+.testimonials p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.testimonial-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.445); 
+  backdrop-filter: blur(80px);
+  border: 2px solid #ddd; 
+  border-radius: 8px;
+  box-shadow: 4px 4px 8px #ccc;
+  padding: 25px;
+  border-radius: 8px;
+  display: flex;
+  width: 40%;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.testimonial-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.testimonial-card span {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.testimonial-card span {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.testimonial-card p {
+  font-size: 14px;
+}
+
+/* Footer Styles */
+.footer {
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+}
+
+.footer p {
+  margin: 5px 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    width: 200px;
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
