@@ -5,6 +5,9 @@ import './App.css';
 const App = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
 
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
 
   return (
     <div className="App">
