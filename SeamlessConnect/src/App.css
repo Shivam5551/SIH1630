@@ -49,6 +49,7 @@ body {
   font-size: 24px;
   color: #fff;
   cursor: pointer;
+  
 }
 /* book a demmo button */
 .demo {
@@ -228,6 +229,7 @@ body {
     padding: 10px;
     border-radius: 8px;
     width: 200px;
+    z-index: 100;
   }
 
   .nav.open {
