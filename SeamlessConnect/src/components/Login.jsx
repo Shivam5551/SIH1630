@@ -9,6 +9,13 @@ import { Link, useParams } from 'react-router-dom';
 const Login = () => {
 
   const { role } = useParams();
+  if(role != "Mentor" && role != "Mentee") {
+    return (
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+        <h1>404 Page Not Found</h1>
+      </div>
+    )
+  }
 
   const submit = () => {
     // Handle form submission here

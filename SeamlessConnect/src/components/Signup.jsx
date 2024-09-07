@@ -56,6 +56,14 @@ const Signup = () => {
     console.log('Register button clicked');
   };
 
+  if(role != "Mentor" && role != "Mentee") {
+    return (
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+        <h1>404 Page Not Found</h1>
+      </div>
+    )
+  }
+
   return (
     <div className="signup-container" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div className="signup-form">
