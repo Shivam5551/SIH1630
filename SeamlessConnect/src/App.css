@@ -1,22 +1,88 @@
-
-
 /* General Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #f4f4f9; /* Light grey background color */
+  background-color: #000; 
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  color: #333;
+  border-width: 0;
+  height: 2px;
+  background-color: #333;
 }
 /* Header Styles */
 .header {
+  position: relative; /* Make header the parent container for absolute positioning */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
   background-color: #212121;
   color: #fff;
-  position: relative;
+}
+
+.login {
+  position: absolute; /* Allows precise positioning */
+  top: 50px; /* Adjust to fit below the login/signup button */
+  right: 10px; /* Align to the right side of the header */
+  background-color: #333; /* Background color of the dropdown */
+  border: 1px solid #444; /* Optional: Add border */
+  border-radius: 8px;
+  padding: 10px;
+  z-index: 200; /* Ensure dropdown appears above other elements */
+  display: flex;
+  flex-direction: column;
+}
+
+.login a {
+  color: #fff;
+  padding: 8px;
+  text-decoration: none;
+}
+
+.login a:hover {
+  background-color: #444; /* Optional: Hover effect */
+  border-radius: 4px;
+}
+
+.nav a {
+  color: #fff;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    width: 200px;
+    z-index: 100;
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
 }
 
 .logo {
@@ -29,16 +95,6 @@ body {
 .nav {
   display: flex;
   gap: 15px;
-}
-
-.nav a {
-  color: #fff;
-  padding: 10px;
-  text-decoration: none;
-}
-
-.nav a:hover {
-  text-decoration: underline;
 }
 
 /* Menu Toggle Button */
@@ -63,60 +119,81 @@ body {
   cursor: pointer;
 }
 
+.demo:hover {
+  background-color: #fff;
+}
+
 /* Main Styles */
 .main {
   padding: 20px;
 }
 
 /* Hero Section Styles */
+/* Background Video Styles */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  z-index: -1; /* Place it behind the content */
+  opacity: 0.8; /* Optional: add a bit of transparency */
+}
+
+/* Additional styles to ensure content is readable */
+.App {
+  position: relative;
+  z-index: 1; 
+  color: white; 
+}
+
+.header, .main, .footer {
+  position: relative; /* Ensure these sections are positioned above the video */
+}
+
+
 .hero {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   padding: 30px;
-  margin-bottom: 30px;
+  margin: 0;
+  height: 80vh;
+  width: 90vw;
   background: rgba(255, 255, 255, 0.445); 
   backdrop-filter: blur(80px);
   border: 2px solid #ddd; 
-  border-radius: 8px;
-  box-shadow: 4px 4px 8px #ccc;
+  border-radius: 20px;
+  box-shadow: 0px 4px 8px #ccc;
 }
 
-.hero h1 {
-  font-weight: 800;
-  font-size: 3.5vw;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-.hero b {
-  color: rgb(4, 82, 160)
-
+.heading-container{
+  margin: 10px;
+  padding: 5vb;
 }
 
-
-.description {
-  flex: 1;
-  padding: 10px;
-  margin-right: 20px;
-  padding: 20px; 
+.heading-container h1 {
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+  z-index: 10;
+  font-size: 10vb;
+  text-align: center;
+  font-weight: 500;
+  font-family: cursive;
 }
 
-
-.description p {
-  font-size: 18px;
+.heading-container p{
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+  z-index: 10;
+  font-size: 4vb;
+  text-align: center;
+  font-weight: 500;
+  font-family: euclid_circular_medium, sans-serif,
 }
 
-.image {
-  flex: 1;
-}
-
-.image img {
-  width: 100%;
-  border-radius: 8px;
-  border: #f0f solid 2px;
-  box-shadow: 4px 4px 8px rgba(70, 5, 5, 0.3);
-  max-width: 40vw;
-  height: auto;
-}
 
 /* Search Bar Styles */
 .search {
@@ -151,7 +228,7 @@ body {
 }
 
 .testimonials h2 {
-    color: #212121;
+    color: #ccc;
     font-family: sans-serif;
     font-size: 32px;
     font-weight: 500;
@@ -207,7 +284,7 @@ body {
 /* Footer Styles */
 .footer {
   padding: 20px;
-  background-color: #333;
+  background-color: #212121;
   color: #fff;
   text-align: center;
 }
@@ -217,6 +294,7 @@ body {
 }
 
 /* Responsive Styles */
+
 @media (max-width: 768px) {
   .nav {
     display: none;
@@ -241,23 +319,40 @@ body {
   }
 }
 
-/* login page */
 
 
 .login {
+  position: absolute; /* Allows precise positioning */
+  top: 50px; /* Adjust to fit below the login/signup button */
+  right: 10px; /* Align to the right side of the header */
+  background-color: #333; /* Background color of the dropdown */
+  border: 1px solid #444; /* Optional: Add border */
+  border-radius: 8px;
+  padding: 10px;
+  z-index: 200; /* Ensure dropdown appears above other elements */
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  position: absolute;
-  top: 60px;
-  right: 20px;
-  background-color: #333;
-  padding: 10px;
-  border-radius: 8px;
-  width: 200px;
-  z-index: 100;
 }
-/* Center the main div in the viewport */.centered-container {
+
+
+.login a:hover {
+  background-color: #444; /* Optional: Hover effect */
+  border-radius: 4px;
+}
+
+.nav a {
+  color: #fff;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* login page */
+
+.centered-container {
   background-image: url('./assets/background-image.jpeg'); 
   background-size: cover;
   background-position: center;
@@ -275,9 +370,9 @@ body {
 .loginPage {
   display: flex;
   flex-direction: column;
-  padding: 20px; /* Increased padding for better spacing */
-  border-radius: 10px; /* Less rounded corners */
-  width: 90%; /* Relative width for responsiveness */
+  padding: 20px; 
+  border-radius: 10px; 
+  width: 90%; 
   max-width: 400px; 
   box-shadow: 4px 4px 8px rgba(249, 247, 247, 0.2); /* Improved shadow for better effect */
   align-items: center;
@@ -420,6 +515,7 @@ body {
 }
 
 .signup-form {
+  margin-top: 2px;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -510,8 +606,9 @@ button:disabled {
 
 .buttons {
   display: flex;
-  flex-direction: column;
-  row-gap: 10px;
+  row-gap: 10px; 
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .signupToLoginButton {
@@ -526,4 +623,9 @@ button:disabled {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
+}
+
+.signupToLoginButton:hover {
+  background-color: #218838; 
+  border-color: #1e7e34;
 }

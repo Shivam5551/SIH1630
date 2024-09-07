@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import VideoPath from '../assets/bg-video4.mp4';
 
 const mentor = "Mentor";
 const mentee = "Mentee";
 
+const headingsWithDescriptions = [
+  {
+    heading: "Empower Your Journey, One Connection at a Time",
+    description: "Make meaningful connections that drive your growth and success. Empower yourself through personalized mentorship."
+  },
+  {
+    heading: "From Aspiration to Achievement with Expert Mentorship",
+    description: "Turn your dreams into reality with expert guidance. Achieve your aspirations with effective mentorship."
+  }
+];
+
 const Navigation = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -14,20 +27,43 @@ const Navigation = () => {
   const toggleLoginMenu = () => {
     setShowLogin(!showLogin);
   };
+
+  const handleMouseEnter = () => {
+    setShowLogin(true); 
+  };
+
+  const handleMouseLeave = () => {
+    setShowLogin(false); 
+  };
   
+  const handleMouseLeaveMenu = () => {
+    setMenuOpen(false);
+  }
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % headingsWithDescriptions.length);
+    }, 5000); 
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <div className="App">
       {/* Header */}
       <header className="header">
         <div className="logo">Seamless Connect</div>
-        <nav className={`nav ${isMenuOpen ? 'open' : ''}`}>
+        <nav className={`nav ${isMenuOpen ? 'open' : ''}`} onMouseLeave={handleMouseLeaveMenu}>
           <a href="/">Home</a>
           <a href="#calendar">Calender</a>
           <a href="#resources">Resources</a>
           <a href="#about">About</a>
           <a href="#login" onClick={toggleLoginMenu}>Login/Signup</a>
           {showLogin && (
-            <div className='login'>
+            <div
+            className='login'
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
                 <Link to={`/login/${mentor}`}>Login as {mentor}</Link>
                 <Link to={`/register/${mentor}`}>Sign up as {mentor}</Link>
                 <Link to={`/login/${mentee}`}>Login as {mentee}</Link>
@@ -39,16 +75,16 @@ const Navigation = () => {
           &#x22EE; {/* Triple dot symbol */}
         </button>
       </header>
-      
+      <hr/>
       {/* Body */}
       <main className="main">
         <section className="hero">
-          <div className="description">
-            <h1>What is <b>Seamless Connect?</b></h1>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptas earum nostrum itaque magnam similique laudantium aliquam molestiae ipsam quas voluptates atque architecto sed ea enim eos fugiat, quasi vitae velit corporis reprehenderit minus libero facilis adipisci. Blanditiis facilis sed impedit sunt ad, maxime explicabo inventore doloribus molestias minima nostrum porro dolores totam eaque possimus eos aspernatur molestiae tenetur rerum! Fuga accusamus cum ratione aperiam itaque, iure magnam officia illum, consectetur odit, ad labore sunt quibusdam recusandae expedita velit dolorum nesciunt. Reprehenderit similique nobis nihil dignissimos enim, tempora modi recusandae provident impedit tempore perferendis, error repellendus? Delectus nisi quibusdam similique minima!</p>
-          </div>
-          <div className="image">
-            <img src="https://www.the-rheumatologist.org/wp-content/uploads/2020/02/mentoringgraphic.jpg" alt="Mentorship" />
+        <video className="bg-video" autoPlay muted loop>
+        <source src={VideoPath} type="video/mp4" />
+        </video>
+          <div className='heading-container'>
+            <h1>{headingsWithDescriptions[currentIndex].heading}</h1>
+            <p>{headingsWithDescriptions[currentIndex].description}</p>
           </div>
         </section>
 
@@ -63,23 +99,23 @@ const Navigation = () => {
           <h2><b>Testimonials</b></h2>
           <div className="testimonial-cards">
             <div className="testimonial-card">
-              <img src="https://th.bing.com/th/id/OIP.G2PX9M2_Qi41AGmczBpodwHaHa?rs=1&pid=ImgDetMain"/>
-              <span className='mentorName'>John Cena</span>
-              <span>Mathematics Teacher</span>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio numquam praesentium est quod sapiente dignissimos modi vero temporibus blanditiis dolorum quas, consequatur id. Consequatur sint laboriosam minus iure maxime dicta?</p>
+              <img src="https://th.bing.com/th/id/OIP.hCfHyL8u8XAbreXuaiTMQgHaHZ?rs=1&pid=ImgDetMain"/>
+              <span className='mentorName'>Alex Johnson</span>
+              <span>Mathematics Mentor</span>
+              <p>Alex's expertise in mathematics and his teaching methods are outstanding. His ability to break down complex concepts into understandable segments has greatly improved my understanding and confidence in math</p>
             </div>
             <div className="testimonial-card">
-              <img src="https://img.freepik.com/premium-photo/friendly-positive-cute-little-white-cartoon-robot-glowing-with-blue-light_9493-23413.jpg" />
-              <span className='mentorName'>Jane Smith</span>
-              <span>English Teacher</span>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Omnis velit animi odit dignissimos, id fugit soluta aspernatur laboriosam qui nobis.
+              <img src="https://i.pinimg.com/originals/c7/6b/3f/c76b3f38a6b60c338d6534b4eacc9af2.jpg" />
+              <span className='mentorName'>Emily Davis</span>
+              <span>English Mentor</span>
+              <p>Emily's insights into English literature and grammar have been incredibly helpful. Her personalized feedback and engaging lessons have significantly enhanced my writing skills and appreciation for literature.
               </p>
             </div>
             {/* Add more testimonial cards as needed */}
           </div>
         </div>
       </main>
-
+            <hr/>
       {/* Footer */}
       <footer className="footer">
         <p>&copy; 2024 Seamless Connect. All rights reserved.</p>

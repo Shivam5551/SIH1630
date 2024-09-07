@@ -1,6 +1,6 @@
 // login.jsx
-import googleLogo from '../assets/google-logo.png'; // Replace with the actual path
-import digilockerLogo from '../assets/digilocker-logo.png'; // Replace with the actual path
+import googleLogo from '../assets/google-logo.png'; 
+import digilockerLogo from '../assets/digilocker-logo.png'; 
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
