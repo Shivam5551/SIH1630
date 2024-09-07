@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import { getCountries, getCountryCallingCode } from 'libphonenumber-js';
-import backgroundImage from '../assets/background-image.png';
-import googleLogo from '../assets/google-logo.png'; // Replace with the actual path
-import digilockerLogo from '../assets/digilocker-logo.png'; // Replace with the actual path
+import backgroundImage from '../assets/bg-image.png';
+import googleLogo from '../assets/google-logo.png'; 
+import digilockerLogo from '../assets/digilocker-logo.png'; 
+import { Link, useParams } from 'react-router-dom';
 
 const countries = getCountries().map(country => ({
   code: country,
@@ -25,6 +26,7 @@ const CustomCountrySelect = ({ value, onChange }) => {
 const Signup = () => {
   const [value, setValue] = useState('');
   const [generatedPassword, setGeneratedPassword] = useState('');
+  const { role } = useParams();
 
   const handleGeneratePassword = () => {
     const newPassword = generateRandomPassword();
@@ -57,6 +59,7 @@ const Signup = () => {
   return (
     <div className="signup-container" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div className="signup-form">
+        <h1 className="heading" style={{color: 'white', textAlign: 'center'}}>{role} Signup</h1>
         <div className="name">
           <input id="firstName" required placeholder="First Name" type="text" />
           <input id="lastName" placeholder="Last Name" type="text" />
@@ -83,17 +86,24 @@ const Signup = () => {
           value={generatedPassword}
           readOnly
         />
-        <div className="but"  
+        <div className="buttons">
+            <button type="button" onClick={handleGeneratePassword}>
+              Generate Random Password
+            </button>
+            <button type="button" className='loginButton' onClick={submit}>Register</button>
+        </div>  
         <div className="social-buttons">
             <button type="button" className="google-button">
                 <img src={googleLogo} alt="Google Logo" className="social-logo" />
-                Login using Google
+                Signup using Google
             </button>
             <button type="button" className="digilocker-button">
                 <img src={digilockerLogo} alt="Digilocker Logo" className="social-logo" />
-                Login Using Digilocker
+                Signup Using Digilocker
             </button>
-            </div>
+          </div>
+          <Link to={`/login/${role}`}><button type="button" className="signupToLoginButton">Login</button></Link>
+            
       </div>
     </div>
   );

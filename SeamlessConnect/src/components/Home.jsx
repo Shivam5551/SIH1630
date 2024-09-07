@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+const mentor = "Mentor";
+const mentee = "Mentee";
+
 const Navigation = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -25,10 +28,10 @@ const Navigation = () => {
           <a href="#login" onClick={toggleLoginMenu}>Login/Signup</a>
           {showLogin && (
             <div className='login'>
-                <Link to="/login">Login as Mentor</Link>
-                <Link to="/register">Sign up as Mentor</Link>
-                <Link to="/loginAsMentee">Login as Mentee</Link>
-                <Link to="/signUpAsMentee">Sign up as Mentee</Link>
+                <Link to={`/login/${mentor}`}>Login as {mentor}</Link>
+                <Link to={`/register/${mentor}`}>Sign up as {mentor}</Link>
+                <Link to={`/login/${mentee}`}>Login as {mentee}</Link>
+                <Link to={`/register/${mentee}`}>Sign up as {mentee}</Link>
             </div>)}
           <button className="demo" href="#bookDemo">Book a Demo</button>
         </nav>
