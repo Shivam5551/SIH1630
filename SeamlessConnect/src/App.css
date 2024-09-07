@@ -240,3 +240,262 @@ body {
     display: block;
   }
 }
+
+/* login page */
+
+
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background-color: #333;
+  padding: 10px;
+  border-radius: 8px;
+  width: 200px;
+  z-index: 100;
+}
+/* Center the main div in the viewport */.centered-container {
+  background-image: url('./assets/background-image.jpeg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  background-color: #f4f4f4; /* Light background color for contrast */
+}
+
+.loginPage {
+  display: flex;
+  flex-direction: column;
+  padding: 20px; /* Increased padding for better spacing */
+  border-radius: 10px; /* Less rounded corners */
+  width: 90%; /* Relative width for responsiveness */
+  max-width: 400px; 
+  box-shadow: 4px 4px 8px rgba(249, 247, 247, 0.2); /* Improved shadow for better effect */
+  align-items: center;
+  text-align: center; 
+  backdrop-filter: blur(10px); /* Apply blur effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+
+}
+
+.loginPage h1 {
+  padding: 0;
+  font-family: monospace;
+  font-size: 1.5rem; /* Use relative units for font size */
+  font-weight: bolder;
+  margin-bottom: 20px; /* Added margin for spacing */
+}
+
+.loginPage input {
+  padding: 10px;
+  font-size: 1rem; /* Use relative units for font size */
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%; /* Full width of container */
+}
+
+.loginPage .loginButton {
+  padding: 10px 20px;
+  font-size: 1rem; /* Use relative units for font size */
+  background-color: #007bff; /* Primary button color */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%; /* Full width of container */
+}
+
+.loginPage .loginButton:hover {
+  background-color: #0056b3; /* Darker color on hover */
+}
+
+.loginPage .forgotPassword {
+  margin-top: 10px;
+  color: #ccc;
+  text-decoration: none;
+}
+
+.loginPage .forgotPassword:hover {
+  text-decoration: underline; 
+}
+
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
+}
+
+.social-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eee; 
+  color: #333; 
+  border: 1px solid #ddd; 
+  border-radius: 8px; 
+  padding: 10px;
+  font-size: 1rem; /* Use relative units for font size */
+  width: 100%; 
+  margin-top: 10px; 
+  cursor: pointer;
+  transition: background-color 0.5s; 
+}
+
+.social-buttons button:hover {
+  background-color: #ddd; 
+}
+
+.social-logo {
+  width: 24px; 
+  height: 24px; 
+  margin-right: 10px; 
+  vertical-align: middle; 
+}
+
+.loginPage button.registerButton {
+  background-color: #28a745; 
+  color: #fff; 
+  border: 1px solid #28a745; 
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem; /* Use relative units for font size */
+  width: 100%; 
+  margin-top: 10px; 
+  margin-bottom: 10px;
+  cursor: pointer; 
+  transition: background-color 0.3s, border-color 0.3s; 
+}
+
+.loginPage button.registerButton:hover {
+  background-color: #218838; 
+  border-color: #1e7e34;
+}
+
+.loginPage button.registerButton:focus {
+  outline: none; 
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5); 
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 600px) {
+  .loginPage {
+    padding: 15px;
+  }
+
+  .loginPage h1 {
+    font-size: 1.25rem;
+  }
+
+  .loginPage input, 
+  .loginPage .loginButton, 
+  .social-buttons button,
+  .loginPage button.registerButton {
+    font-size: 0.875rem; /* Slightly smaller font size for smaller screens */
+  }
+}
+
+/* signup */
+
+/* Signup.css */
+
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.signup-form {
+  background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
+.name {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.signup-form input {
+  width: 95%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.email-id {
+  width: 95%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+
+
+.PhoneInput {
+  padding-top: 10px;
+  display: flex;
+  height: 50px;
+  width: 95%;
+}
+
+.PhoneInput select {
+  border-radius: 7px;
+  padding: 10px;
+  margin-right: 5px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  width: 25%;
+}
+
+.PhoneInput input {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
