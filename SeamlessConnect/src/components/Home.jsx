@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import VideoPath from '../assets/bg-video4.mp4';
+
 
 const mentor = "Mentor";
 const mentee = "Mentee";
@@ -93,6 +94,47 @@ const Navigation = () => {
           <input type="text" placeholder="Search for categories for mentorship" />
           <button className='searchButton'>Serach <i className="fa fa-search" /></button>
         </section>
+
+        <div className="thq-section-padding">
+      <div className="thq-section-max-width">
+        <div className="cta26-accent2-bg">
+          <div className="cta26-accent1-bg">
+            <div className="cta26-container2">
+              <div className="cta26-content">
+                <span>
+                    <Fragment>
+                      <span className="cta26-text4 thq-heading-2">
+                        Find Your Perfect Mentor
+                      </span>
+                    </Fragment>
+                </span>
+                <p>
+                  <Fragment>
+                      <p className="cta26-text5 thq-body-large">
+                        Search through our database of experienced mentors to
+                        find the perfect match for your learning needs.
+                      </p>
+                    </Fragment>
+                </p>
+              </div>
+              <div className="cta26-actions">
+                <button
+                  type="button"
+                  className="cta26-button"
+                >
+                  <span>
+                      <Fragment>
+                        <span className="cta26-text6">Start Searching</span>
+                      </Fragment>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
         
         {/* Testimonials */}
         <div className="testimonials">
@@ -114,6 +156,7 @@ const Navigation = () => {
             {/* Add more testimonial cards as needed */}
           </div>
         </div>
+      
       </main>
             <hr/>
       {/* Footer */}
