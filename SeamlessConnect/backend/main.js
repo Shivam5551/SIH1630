@@ -1,30 +1,33 @@
-import emailjs from '@emailjs/browser';
-import dotenv from 'dotenv';
+import nodemailer from 'nodemailer';
 
-// Configure dotenv to load the environment variables
-dotenv.config();
+const transporter = nodemailer.createTransport({
+  host: "smtp.ethereal.email",
+  port: 587,
+  secure: false,
+  auth: {
+    user: "kailee.eichmann@ethereal.email", 
+    pass: "G5XMyT8ewj4SswzCQx",
+  },
+});
 
-
-export const otpSend = (data) => {
+// Async function to send email
+export const otpSend = async (data) => {
+  try {
     const otp = generateOtp();
-    const templateParams = {
-        name: data.firstName,
-        email: data.emailID, // Email to send OTP
-        message: `Your OTP is ${otp}`, 
-    };
+    const info = await transporter.sendMail({
+      from: 'Seamless Connect', // Sender address
+      to: `${data.emailID}`, // List of receivers
+      subject: "OTP", // Subject line
+      text: `Your OTP is ${otp}`, // Plain text body
 
-    emailjs.send(process.env.SERVICE_ID, process.env.PLATFORM_MAIL, templateParams, process.env.PUBLIC_KEY_FOR_MAIL)
-        .then((response) => {
-            console.log('Email sent successfully:', response.status, response.text);
-            return otp;
-        })
-        .catch((error) => {
-            console.error('Failed to send email:', error);
-            return error;
-        });
-};
+    });
 
-// Helper function to generate an OTP
+    console.log("Message sent: %s", info.messageId, data.emailID);
+    return otp;
+  } catch (error) {
+    console.error("Error sending email:", error);
+  }
+}
 const generateOtp = () => {
-    return Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
+    return Math.floor(100000 + Math.random() * 900000); 
 };

@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
-mongoose.connect("mongodb+srv://Shivam:shivam@cluster0.d9e5typ.mongodb.net/mentorconnect/");
+mongoose.connect("mongodb+srv://Shivam:shivam@cluster0.d9e5typ.mongodb.net/mentorconnect");
 
 
 // Define schemas
 const mentorSchema = new mongoose.Schema({
     firstName: { required: true, type: String },
     lastName: { type: String },
-    mailID: { required: true, type: String, unique: true },
+    emailID: { required: true, type: String, unique: true },
     phoneNO: { required: true, type: String, unique: true },
     hashedPassword: { required: true, type: String }
 });
@@ -15,7 +15,7 @@ const mentorSchema = new mongoose.Schema({
 const menteeSchema = new mongoose.Schema({
     firstName: { required: true, type: String },
     lastName: { type: String },
-    mailID: { required: true, type: String, unique: true },
+    emailID: { required: true, type: String, unique: true },
     phoneNO: { required: true, type: String, unique: true },
     hashedPassword: { required: true, type: String }
 });

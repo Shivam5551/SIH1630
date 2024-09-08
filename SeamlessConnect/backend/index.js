@@ -51,22 +51,24 @@ const verifyToken = (req, res, next) => {
 // Route for registration
 app.post('/register/:role', async (req, res) => {
     const role = req.params.role;
+    console.log(role);
     const data = req.body;
-
-    let Model;
-    if (role === 'Mentor') {
-        Model = MentorModel;
-    } else if (role === 'Mentee') {
-        Model = MenteeModel;
-    } else {
-        return res.status(404).json({ message: '404 Page Not Found' });
-    }
-
     try {
-        user = await Model.create(data);
-
+        if (role == 'Mentor') {
+            console.log(data);
+            user = await MentorModel.create(data);
+        }
+        else if (role == 'Mentee'){
+            user = await MenteeModel.create(data);
+        }
+        else {
+            console.log(`Invalid role:'${role}'hello`);
+            return res.status(404).json({ message: '404 Page Not Found' });
+        }
         if (user) {
-            otp = otpSend(data).padStart(6, '0');
+            console.log("userCreated")
+            otp = otpSend(data);
+            otp = otp.toString().padStart(6, '0');
             return res.status(200).json({ message: 'Registration successful, OTP sent', otp });
         }
     } catch (error) {

@@ -93,7 +93,8 @@ const Signup = () => {
     // Hash the password
     const hashedPassword = CryptoJS.SHA256(confirmPassword).toString();
   
-    // Prepare the payload
+    // Prepare the payload  
+    console.log(emailID)
     const createPayload = {
       firstName: firstName,
       lastName: lastName,

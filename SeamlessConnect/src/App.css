@@ -373,12 +373,18 @@ hr {
   border-radius: 8px;
   box-shadow: 4px 4px 8px #ccc;
   padding: 25px;
-  border-radius: 8px;
   display: flex;
   width: 40%;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  transition: transform 0.3s ease, z-index 0.6s; /* Added transition for smooth color change */
+}
+
+.testimonial-card:hover {
+  background-color: rgba(0, 90, 186, 0.7);
+  transform: scale(1.3);
+  z-index: 5;
 }
 
 .testimonial-card img {
@@ -386,6 +392,12 @@ hr {
   height: 80px;
   border-radius: 50%;
   margin-bottom: 10px;
+  transition: transform 0.3s ease, z-index 0s; /* Added transition for smooth zoom effect */
+}
+
+.testimonial-card img:hover {
+  transform: scale(1.1); /* Slight zoom effect on hover */
+  z-index: 5;
 }
 
 
@@ -765,12 +777,20 @@ button:disabled {
   width: 100vw;
 }
 
+
 .main-otp-container {
-  background-color: #ccc;
-  padding: 5%;
+  background-color: ;
+  width: 35%;
+  padding: 1%;
   border-radius: 20px;
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px); 
+  -webkit-backdrop-filter: blur(10px);
+  display: flex; 
+  color: #ccc;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 4px 4px rgba(198, 198, 198, 0.3);
+  
 }
 
 h2 {
@@ -792,6 +812,13 @@ h2 {
   border-radius: 4px;
 }
 
+.button-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;  
+  margin-bottom: 5%; 
+}
+
 .submit-button {
   margin-top: 20px;
   padding: 10px 20px;
@@ -799,7 +826,7 @@ h2 {
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
 }
 

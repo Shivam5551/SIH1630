@@ -10,14 +10,10 @@ const OtpVerification = () => {
     let formData = JSON.parse(localStorage.getItem('formData'));
 
     if (!formData) {
-        console.log("no data")
+        console.log("no data");
         formData = "hello";
-        console.log(formData)
+        console.log(formData);
     }
-
-    // Use these variables as needed
-    //console.log('Received data:', { firstName, lastName, emailID, phoneNO });
-
 
     const handleChange = (e, index) => {
         const newOtp = [...otp];
@@ -29,6 +25,21 @@ const OtpVerification = () => {
         }
 
         setOtp(newOtp);
+    };
+
+    const handleKeyDown = (e, index) => {
+        if (e.key === 'Backspace') {
+            e.preventDefault();
+            const newOtp = [...otp];
+            newOtp[index] = '';
+
+            // Move focus to the previous input
+            if (index > 0) {
+                document.getElementById(`otp-${index - 1}`).focus();
+            }
+
+            setOtp(newOtp);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -107,17 +118,21 @@ const OtpVerification = () => {
                                 type="text"
                                 value={digit}
                                 onChange={(e) => handleChange(e, index)}
+                                onKeyDown={(e) => handleKeyDown(e, index)}
                                 maxLength="1"
                                 className="otp-input"
                             />
                         ))}
                     </div>
                     {!isValid && <p className="error-message">Please enter a valid 6-digit OTP.</p>}
-                    <button type="submit" className="submit-button">Verify</button>
+                    <div className="button-container">
+                        <button onClick={handleResendOtp} disabled={isResending} className="submit-button">
+                            {isResending ? 'Resending...' : 'Resend OTP'}
+                        </button>
+                        <button type="submit" className="submit-button">Verify</button>
+                    </div>
                 </form>
-                <button onClick={handleResendOtp} disabled={isResending} className="submit-button">
-                    {isResending ? 'Resending...' : 'Resend OTP'}
-                </button>
+                
                 {resendMessage && <p className="error-message">{resendMessage}</p>}
             </div>
         </div>
