@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login'; 
 import Home from './components/Home'; 
 import Signup from './components/Signup'
 import OtpVerification from './components/Verification';
+import Test from './components/Test'
 import './App.css';
 
 const App = () => {
@@ -14,6 +16,7 @@ const App = () => {
         <Route path="/login/:role" element={<Login/>} />
         <Route path='/register/:role' element={<Signup/>} />
         <Route path='/register/:role/verification' element={<OtpVerification/>}/>
+        <Route path='/mentorTest' element={<Test/>}/>
       </Routes>
     </Router>
   );

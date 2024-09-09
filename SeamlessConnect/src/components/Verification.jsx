@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const OtpVerification = () => {
+    const navigate = useNavigate();
     const { role } = useParams();
     const [otp, setOtp] = useState(['', '', '', '', '', '']);
     const [isValid, setIsValid] = useState(true);
@@ -59,10 +61,17 @@ const OtpVerification = () => {
                     },
                     body: JSON.stringify({ otp: otpString }) // Include OTP in the request
                 });
+                
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Handle successful verification (e.g., redirect to another page)
+                    // Check if the response contains a JWT or cookie
+                    if (data.token) {
+                        // Store JWT in local storage
+                        localStorage.setItem('cookie', data.token);
+                    }
+
+                    navigate(`/mentorTest`); // Redirect to the next page
                 } else {
                     setIsValid(false);
                     setResendMessage(data.message || 'Failed to verify OTP.');
