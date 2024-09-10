@@ -4,21 +4,18 @@ import digilockerLogo from '../assets/digilocker-logo.png';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-
-
 const Login = () => {
 
   const { role } = useParams();
   if(role != "Mentor" && role != "Mentee") {
     return (
-      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div style={{display: 'flex', justifyContent: 'center', color: "#ccc"}}>
         <h1>404 Page Not Found</h1>
       </div>
     )
   }
 
   const submit = () => {
-    // Handle form submission here
     console.log('Login button clicked');
   };
 

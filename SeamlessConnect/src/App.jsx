@@ -6,6 +6,10 @@ import Home from './components/Home';
 import Signup from './components/Signup'
 import OtpVerification from './components/Verification';
 import Test from './components/Test'
+import SubmitDocs from './components/SubmitDocs';
+import { Failed } from './components/Falied';
+import NotEligible from './components/NotEligible';
+import WaitingPage from './components/VerificationWaitingPage';
 import './App.css';
 
 const App = () => {
@@ -17,6 +21,10 @@ const App = () => {
         <Route path='/register/:role' element={<Signup/>} />
         <Route path='/register/:role/verification' element={<OtpVerification/>}/>
         <Route path='/mentorTest' element={<Test/>}/>
+        <Route path='/submitdocs' element={<SubmitDocs/>}/>
+        <Route path='/failed' element={<Failed/>}/>
+        <Route path='/noteligible' element={<NotEligible/>}/>
+        <Route path='/verification/waitingpage' element={<WaitingPage/>}/>
       </Routes>
     </Router>
   );

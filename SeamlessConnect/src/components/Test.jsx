@@ -1,23 +1,42 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Test = () => {
     const [questions, setQuestions] = useState([]);
     const [answers, setAnswers] = useState({});
-    const navigate = useNavigate(); 
-    // Fetch questions when the component mounts
+    const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState('Select Category');
+    const navigate = useNavigate();
+
     useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/categories');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch categories');
+                }
+                const data = await response.json();
+                setCategories(data.categories);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        if (!category || category === 'Select Category') return;
+
         const fetchQuestions = async () => {
             try {
-                
-                const cookies = localStorage.getItem('cookie'); 
-                const response = await fetch('http://localhost:3000/getquestions', {
+                const cookies = localStorage.getItem('cookie');
+                const response = await fetch(`http://localhost:3000/getquestions/${category}`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Cookie': cookies, // Include cookies in the headers
+                        'Cookie': cookies,
                     },
-                    credentials: 'include', // Ensure cookies are sent with request
+                    credentials: 'include',
                 });
 
                 if (!response.ok) {
@@ -31,28 +50,37 @@ const Test = () => {
         };
 
         fetchQuestions();
-    }, []);
+    }, [category]);
 
-    const handleOptionChange = (questionId, optionId) => {
+    const handleOptionChange = (questionId, optionKey) => {
         setAnswers(prevAnswers => ({
             ...prevAnswers,
-            [questionId]: optionId
+            [questionId]: optionKey
         }));
+    };
+
+    const handleCategoryChange = (event) => {
+        setCategory(event.target.value);
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        const formattedAnswers = Object.keys(answers).map(questionId => ({
+            questionID: questionId,
+            selectedOption: answers[questionId]
+        }));
+
         try {
-            const cookies = localStorage.getItem('cookies');
-            const response = await fetch('http://localhost:3000/submitanswers', { 
+            const cookies = localStorage.getItem('cookie');
+            const response = await fetch(`http://localhost:3000/submitanswers/${category}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Cookie': cookies, 
+                    'Cookie': cookies,
                 },
-                credentials: 'include', // Ensure cookies are sent with request
-                body: JSON.stringify(answers),
+                credentials: 'include',
+                body: JSON.stringify({ answers: formattedAnswers }),
             });
 
             if (!response.ok) {
@@ -61,9 +89,9 @@ const Test = () => {
             
             const result = await response.json();
             if (result.score > 7) {
-                navigate('/nextRoute'); // Use navigate for programmatic navigation
+                navigate('/submitdocs');
             } else {
-                navigate('/retryRoute'); // Use navigate for programmatic navigation
+                navigate('/noteligible');
             }
         } catch (error) {
             console.error('Error submitting answers:', error);
@@ -71,30 +99,37 @@ const Test = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            {questions.map(question => (
-                <div key={question.id}>
-                    <img src={question.img} alt={`Question ${question.id}`} />
-                    <fieldset>
-                        <legend>{question.question}</legend>
-                        {question.options.map(option => (
-                            <label key={option.id}>
-                                <input
-                                    type="radio"
-                                    name={question.id}
-                                    value={option.id}
-                                    checked={answers[question.id] === option.id}
-                                    onChange={() => handleOptionChange(question.id, option.id)}
-                                    required
-                                />
-                                {option.text}
-                            </label>
-                        ))}
-                    </fieldset>
-                </div>
-            ))}
-            <button type="submit">Submit</button>
-        </form>
+        <div className='main-test'>
+            <select onChange={handleCategoryChange} value={category}>
+                <option disabled>Select Category</option>
+                {categories.map((cat) => (
+                    <option key={cat._id} value={cat.categoryName}>{cat.categoryName}</option>
+                ))}
+            </select>
+            <form onSubmit={handleSubmit}>
+                {questions.map((question) => (
+                    <div key={question._id}>
+                        <div className='question-statement'>{question.statement}</div>
+                        <fieldset>
+                            {Object.entries(question.options).map(([key, value]) => (
+                                <label key={key}>
+                                    <input
+                                        type="radio"
+                                        name={question._id}
+                                        value={key}
+                                        checked={answers[question._id] === key}
+                                        onChange={() => handleOptionChange(question._id, key)}
+                                        required
+                                    />
+                                    {`${key}: ${value}`}
+                                </label>
+                            ))}
+                        </fieldset>
+                    </div>
+                ))}
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     );
 };
 

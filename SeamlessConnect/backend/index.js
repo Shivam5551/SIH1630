@@ -1,10 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import multer from 'multer';
 import jwt from 'jsonwebtoken';
 import { MentorModel, MenteeModel } from './db.js';
 import dotenv from 'dotenv';
 import { otpSend } from './main.js'; // Ensure otpSend function is properly exported
+import { GetCategories } from './fetchCategory.js';
+import { GetQuestions } from './fetchQuestions.js';
+import { checkAnswers } from './answersCheck.js';
+import { Submission } from './submitFiles.js';
+
 
 dotenv.config();
 
@@ -48,6 +54,18 @@ const verifyToken = (req, res, next) => {
     });
 };
 
+//docs upload 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads');
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+
+const upload = multer({ storage: storage });
+
 // Route for registration
 app.post('/register/:role', async (req, res) => {
     const role = req.params.role;
@@ -89,15 +107,72 @@ app.post('/register/:role/verification', (req, res) => {
     }
 });
 
-// Example protected route
-app.get('/mentortest', verifyToken, (req, res) => {
-    res.status(200).json({ message: 'You have access to this route', user: req.user });
+app.get('/categories', verifyToken,async (req, res) => {
+    const categories = await GetCategories.find({});
+    if(categories) {
+        return res.status(200).json({ categories });
+    }
+    return res.status(500).json({error: "Unable to fetch questions"});
+});
+
+app.post('/submitanswers/:category', verifyToken, async (req, res) => {
+    try {
+        const submittedAnswers = req.body.answers;
+        const correctAnswers = await checkAnswers(req.params.category);
+
+        let points = 0;
+        submittedAnswers.forEach(answer => {
+            const correctAnswer = correctAnswers.find(element => element.questionId === answer.questionID);
+            if (correctAnswer && answer.selectedOption === correctAnswer.correctOption) {
+                points += 1;
+            }
+        });
+        return res.status(200).json({ score: points });
+    } catch (error) {
+        console.error('Error submitting answers:', error);
+        return res.status(500).json({ error: "Unable to submit answers" });
+    }
+});
+
+
+
+app.get('/getquestions/:category', verifyToken,async (req, res) => {
+    const getquestions = await GetQuestions(req.params.category);
+    if(getquestions) {
+        return res.status(200).json({questions: getquestions});
+    }
+    return res.status(500).json({error: "Unable to fetch questions"});
+});
+
+app.post('/submitdocs', upload.fields([
+    { name: 'idCard', maxCount: 1 },
+    { name: 'certification', maxCount: 1 },
+]), verifyToken, async (req, res) => {
+    try {
+        const { profileUrl, education, experience, additionalCertificates } = req.body;
+        
+        const newSubmission = new Submission({
+            idCardPath: req.files['idCard'] ? req.files['idCard'][0].path : '',
+            certificationPath: req.files['certification'] ? req.files['certification'][0].path : '',
+            profileUrl,
+            education,
+            experience,
+            additionalCertificates,
+        });
+
+        await newSubmission.save(); // Save submission to the database
+
+        return res.status(200).json({ message: 'Documents submitted successfully!' });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message: 'internal error'})
+    }
 });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ message: 'Internal Server Error', error: err.message });
+    return res.status(500).json({ message: 'Internal Server Error', error: err.message });
 });
 
 app.listen(3000, () => {
