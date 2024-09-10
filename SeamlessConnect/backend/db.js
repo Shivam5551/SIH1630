@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-mongoose.connect("mongodb+srv://Shivam:shivam@cluster0.d9e5typ.mongodb.net/mentorconnect");
+mongoose.connect("url");
 
 
 // Define schemas
