@@ -3,7 +3,7 @@ import React from "react";
 const NotEligible = () => {
     return (
         <div className="main">
-            <center>You had not passed the test.<br/>Get Better</center>
+            <h1 style={{color: "#ccc", textAlign: "center"}}>You have not passed the TEST<br/>Get Better</h1>
         </div>
     )
 }

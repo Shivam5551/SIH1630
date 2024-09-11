@@ -89,13 +89,7 @@ const Navigation = () => {
           </div>
         </section>
 
-        {/* Search Bar */}
-        <section className="search">
-          <input type="text" placeholder="Search for categories for mentorship" />
-          <button className='searchButton'>Serach <i className="fa fa-search" /></button>
-        </section>
-
-        <div className="thq-section-padding">
+      <div className="thq-section-padding">
       <div className="thq-section-max-width">
         <div className="cta26-accent2-bg">
           <div className="cta26-accent1-bg">
@@ -138,7 +132,7 @@ const Navigation = () => {
         
         {/* Testimonials */}
         <div className="testimonials">
-          <h2><b>Testimonials</b></h2>
+          <h1><b>Testimonials</b></h1>
           <div className="testimonial-cards">
             <div className="testimonial-card">
               <img src="https://th.bing.com/th/id/OIP.hCfHyL8u8XAbreXuaiTMQgHaHZ?rs=1&pid=ImgDetMain"/>
@@ -161,9 +155,22 @@ const Navigation = () => {
             <hr/>
       {/* Footer */}
       <footer className="footer">
-        <p>&copy; 2024 Seamless Connect. All rights reserved.</p>
-        <p>Contact us at: contact@seamlessconnect.com</p>
+        <div className="footer-content">
+          <p>&copy; 2024 Seamless Connect. All rights reserved.</p>
+          <p>Contact us at: <a href="mailto:contact@seamlessconnect.com">contact@seamlessconnect.com</a></p>
+          <p>Follow us on:</p>
+          <ul className="social-media-links">
+            <li><a href="#facebook" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="#twitter" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#instagram" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="#linkedIn" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a></li>
+          </ul>
+          <p><a href="#privacy-policy">Privacy Policy</a> | <a href="#terms-of-service">Terms of Service</a></p>
+          <p>Wasteland GGSIPU GTB4CEC Guru Tegh Bahadur 4th Centenary Engineering College</p>
+        </div>
       </footer>
+
+
     </div>
   );
 };

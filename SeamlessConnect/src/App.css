@@ -168,6 +168,7 @@ hr {
   border: 2px solid #ddd; 
   border-radius: 20px;
   box-shadow: 0px 4px 8px #ccc;
+  margin-bottom: 8%;
 }
 
 .heading-container{
@@ -195,38 +196,6 @@ hr {
   font-family: euclid_circular_medium, sans-serif,
 }
 
-
-/* Search Bar Styles */
-.search {
-  display: flex;
-  justify-content: center;
-  margin: 20px 20px;
-}
-
-.search input {
-  width: 50%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.search input:hover {
-  border: 2px solid salmon;
-  box-shadow: 4px 4px 4px #ccc;
-}
-
-.searchButton {
-  padding: 10px;
-  margin-left: 4px;
-  font-size: medium;
-  color: #212121;
-  cursor: pointer;
-  background-color: beige;
-  border: 2px solid #ddd; 
-  border-radius: 8px;
-  box-shadow: 4px 4px 8px #ccc;
-}
 
 .thq-section-padding {
   width: 100%;
@@ -352,12 +321,20 @@ hr {
   padding: 20px;
 }
 
-.testimonials h2 {
-    color: #ccc;
-    font-family: sans-serif;
-    font-size: 32px;
+.testimonials h1 {
+    color: #fff;
+    font-family: monospace;
+    font-size: 5dvh;
+    font-weight: bolder;
     font-weight: 500;
     line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.testimonials h1:hover {
+  font-size: 6dvh;
+  z-index: 5;
 }
 
 .testimonials p {
@@ -388,16 +365,17 @@ hr {
 }
 
 .testimonial-card:hover {
-  background-color: salmon;
-  transform: scale(1.2);
+  background-color: #0056b3;
+  transform: scale(1.15);
+  color: #000;
+  font-size: xx-large;
   z-index: 5;
-  border: 4px dashed darkblue;
 
 }
 
 .testimonial-card img {
-  width: 80px;
-  height: 80px;
+  width: 30%;
+  height: 35%;
   border-radius: 50%;
   margin-bottom: 10px;
   transition: transform 0.3s ease, z-index 0s; /* Added transition for smooth zoom effect */
@@ -426,10 +404,51 @@ hr {
   background-color: #212121;
   color: #fff;
   text-align: center;
+  font-family: Arial, sans-serif;
 }
 
 .footer p {
   margin: 5px 0;
+}
+
+.footer a {
+  color: #1e90ff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer .social-media-links {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer .social-media-links li {
+  display: inline;
+  margin: 0 10px;
+}
+
+.footer .social-media-links a {
+  color: #fff;
+  font-size: 20px;
+  transition: color 0.3s;
+}
+
+.footer .social-media-links a:hover {
+  color: #87ceeb;
+}
+
+@media (max-width: 600px) {
+  .footer {
+    padding: 10px;
+  }
+
+  .footer .social-media-links li {
+    display: block;
+    margin: 5px 0;
+  }
 }
 
 /* Responsive Styles */
@@ -776,7 +795,7 @@ button:disabled {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: url("./assets/blur-bg.jpg");
+  background-image: url("./assets/dark-bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -909,90 +928,140 @@ input[type="radio"] {
   margin-right: 8px;
 }
 
-button {
-  padding: 12px 20px;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #218838;
-}
 
 
 /* docs submission page */
+/* Main container styling */
 .submit-docs-main {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f4f4f9;
+  background-image: url("./assets/bg-im.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   padding: 20px;
+
 }
 
+/* Form container styling */
 .submit-docs-container {
-  background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.8);
   padding: 30px;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
+  backdrop-filter: blur(10px); 
+  -webkit-backdrop-filter: blur(10px);
 }
 
+/* Form styling */
 .docs-main-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px; 
 }
 
+/* Styling for input and textarea elements */
 .docs-main-form input,
 .docs-main-form textarea {
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  box-sizing: border-box; /* Ensure padding and border are included in the width/height */
 }
 
+/* Specific styling for file inputs */
 .docs-main-form input[type="file"] {
-  padding: 5px;
+  padding: 6px;
+  font-size: 14px;
 }
 
+/* Additional note styling */
 .id-card-note {
-  font-size: 12px;
+  font-size: 14px; /* Increased font size for better readability */
   color: #666;
   margin-top: -10px;
 }
 
+/* Styling for textarea */
 .docs-main-form textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 100px; /* Increased minimum height for better user experience */
 }
 
+/* Button styling */
 .docs-main-form button {
-  padding: 12px 20px;
+  padding: 14px 24px; /* Increased padding for a larger button */
   background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Added transition for transform */
 }
 
+/* Button hover state */
 .docs-main-form button:hover {
   background-color: #0056b3;
+  transform: scale(1.02); /* Slightly enlarges button on hover for a visual effect */
 }
 
+/* Label styling for better visual association */
+.docs-main-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .submit-docs-container {
+    padding: 20px;
+    max-width: 100%;
+  }
+  
+  .docs-main-form {
+    gap: 15px; /* Adjust gap for smaller screens */
+  }
+}
+
+.docs-main-form input {
+  margin: 5px;
+  border-radius: 8px;
+}
+
+.docs-main-form label {
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  border-radius: 8px;
+}
+
+.docs-main-form small {
+  color: #000;
+  background-color: #fff;
+  padding: 1%;
+  border-radius: 8px;
+}
+
+.submit-docs-container h1 {
+  text-align: center;
+  font-family: monospace;
+  font-weight: bolder;
+  color: #000;
+}
 /* verification waiting page */
 .waiting-page {
   display: flex;
   justify-content: center;
+  background-image: url("./assets/bg-image.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   align-items: center;
   min-height: 100vh;
   background-color: #f5f5f5;
@@ -1000,39 +1069,45 @@ button:hover {
 }
 
 .waiting-page-content {
-  background-color: #fff;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   width: 100%;
-  text-align: center;
+  text-align: center;  
+  backdrop-filter: blur(50px); 
+  -webkit-backdrop-filter: blur(50px);
+
 }
 
 .waiting-page-content h1 {
+  color: #fff;
   margin-bottom: 20px;
   font-size: 24px;
-  color: #333;
+  font-family: monospace;
+  font-weight: bolder;
 }
 
 .waiting-page-content p {
   margin-bottom: 15px;
-  color: #666;
+  text-align: left;
+  
+  color: #ccc;
 }
 
 .waiting-page-content .link-input {
-  width: 100%;
+  width: 90%;
   padding: 10px;
+  margin: 15px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 16px;
-  margin-bottom: 15px;
 }
 
 .waiting-page-content .connect-button {
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: #007bff;
   color: #fff;
   font-size: 16px;
@@ -1043,3 +1118,4 @@ button:hover {
 .waiting-page-content .connect-button:hover {
   background-color: #0056b3;
 }
+

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 const SubmitDocs = () => {
     const [form, setForm] = useState({
         idCard: '',
@@ -14,10 +13,10 @@ const SubmitDocs = () => {
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, files } = e.target;
         setForm(prevForm => ({
             ...prevForm,
-            [name]: value
+            [name]: files ? files[0] : value
         }));
     };
 
@@ -57,53 +56,81 @@ const SubmitDocs = () => {
     return (
         <div className="submit-docs-main">
             <div className="submit-docs-container">
+                <h1>Submit Your Documents</h1>
                 <form className="docs-main-form" onSubmit={handleSubmit}>
-                    <input 
-                        required
-                        type="file" 
-                        name="idCard" 
-                        accept=".pdf" 
-                        placeholder="Submit your current org/institute ID cardID(in pdf form)" 
-                        onChange={handleChange} 
-                    />
+                    <label htmlFor="idCard">
+                        Submit your current org/institute ID card (in PDF form):
+                        <input 
+                            type="file" 
+                            id="idCard" 
+                            name="idCard" 
+                            accept=".pdf" 
+                            onChange={handleChange} 
+                            required 
+                        />
+                    </label>
                     <small className="id-card-note">*ID card must contain your institution name or contact detail</small>
-                    <input 
-                        type="url" 
-                        name="profileUrl" 
-                        placeholder="Enter your LinkedIn profile URL or portfolio website" 
-                        value={form.profileUrl} 
-                        onChange={handleChange} 
-                    />
-                    <input 
-                        required
-                        type="file" 
-                        name="certification" 
-                        placeholder="Upload your certificates(in pdf form)"
-                        accept=".pdf" 
-                        value={form.certification} 
-                        onChange={handleChange} 
-                    />
-                    <input 
-                        required
-                        type="text" 
-                        name="education" 
-                        placeholder="Enter your educational qualifications" 
-                        value={form.education} 
-                        onChange={handleChange} 
-                    />
-                    <input 
-                        type="text" 
-                        name="experience" 
-                        placeholder="Enter your experience (if any)" 
-                        value={form.experience} 
-                        onChange={handleChange} 
-                    />
-                    <textarea 
-                        name="additionalCertificates" 
-                        placeholder="Add more certificates if you have any" 
-                        value={form.additionalCertificates} 
-                        onChange={handleChange}
-                    />
+                    
+                    <label htmlFor="profileUrl">
+                        Enter your LinkedIn profile URL or portfolio website:
+                        <input 
+                            type="url" 
+                            id="profileUrl" 
+                            name="profileUrl" 
+                            placeholder="Enter your LinkedIn profile URL or portfolio website" 
+                            value={form.profileUrl} 
+                            onChange={handleChange} 
+                        />
+                    </label>
+
+                    <label htmlFor="certification">
+                        Upload your certificates (in PDF form):
+                        <input 
+                            type="file" 
+                            id="certification" 
+                            name="certification" 
+                            accept=".pdf" 
+                            onChange={handleChange} 
+                            required 
+                        />
+                    </label>
+
+                    <label htmlFor="education">
+                        Enter your educational qualifications:
+                        <input 
+                            type="text" 
+                            id="education" 
+                            name="education" 
+                            placeholder="Enter your educational qualifications" 
+                            value={form.education} 
+                            onChange={handleChange} 
+                            required 
+                        />
+                    </label>
+
+                    <label htmlFor="experience">
+                        Enter your experience (if any):
+                        <input 
+                            type="text" 
+                            id="experience" 
+                            name="experience" 
+                            placeholder="Enter your experience (if any)" 
+                            value={form.experience} 
+                            onChange={handleChange} 
+                        />
+                    </label>
+
+                    <label htmlFor="additionalCertificates">
+                        Add more certificates if you have any:
+                        <textarea 
+                            id="additionalCertificates" 
+                            name="additionalCertificates" 
+                            placeholder="Add more certificates if you have any" 
+                            value={form.additionalCertificates} 
+                            onChange={handleChange}
+                        />
+                    </label>
+
                     <button type="submit">Submit</button>
                 </form>
             </div>
