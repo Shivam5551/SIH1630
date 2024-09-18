@@ -3,29 +3,28 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import jwt from 'jsonwebtoken';
-import { MentorModel, MenteeModel } from './db.js';
 import dotenv from 'dotenv';
-import { otpSend } from './main.js'; // Ensure otpSend function is properly exported
-import { GetCategories } from './fetchCategory.js';
-import { GetQuestions } from './fetchQuestions.js';
-import { checkAnswers } from './answersCheck.js';
-import { Submission } from './submitFiles.js';
-
+import { MentorModel, MenteeModel } from './db.js';
+import { otpSend } from './main.js';
+// import { GetCategories } from './fetchCategory.js';
+// import { GetQuestions } from './fetchQuestions.js';
+// import { checkAnswers } from './answersCheck.js';
+// import { Submission } from './submitFiles.js';
 
 dotenv.config();
 
 const app = express();
 let requestCount = 0;
-let otp = undefined;
-let user = undefined;
+let otpStore = {}; // Replace global otp and tempUserData with session-based store
 
-const JWT_SECRET = process.env.JWT_SECRET_KEY_SERVER; // Replace with your actual secret key
+const JWT_SECRET = process.env.JWT_SECRET_KEY_SERVER;
 const JWT_EXPIRATION = '7d'; // Token expiry time
 
 app.use(cors());
 app.use(express.json());
-app.use(cookieParser()); // Initialize cookie parser middleware
+app.use(cookieParser());
 
+// Middleware to count requests
 app.use((req, res, next) => {
     requestCount++;
     console.log(`Request Count: ${requestCount}`);
@@ -40,68 +39,110 @@ const generateToken = (user) => {
 // Middleware to verify JWT token
 const verifyToken = (req, res, next) => {
     const token = req.cookies.authToken;
-
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
-    }
+    if (!token) return res.status(401).json({ message: 'No token provided' });
 
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ message: 'Invalid Token' });
-        }
-        req.user = decoded; // Attach the decoded user to the request object
+        if (err) return res.status(403).json({ message: 'Invalid Token' });
+        req.user = decoded; 
         next();
     });
 };
 
-//docs upload 
+// Multer storage for document uploads
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads');
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
+    destination: (req, file, cb) => cb(null, './uploads'),
+    filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
 });
 
-const upload = multer({ storage: storage });
+// Add file type and size validation (optional)
+const upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+        if (!allowedTypes.includes(file.mimetype)) {
+            return cb(new Error('Invalid file type. Only JPG, PNG, and PDF files are allowed.'));
+        }
+        cb(null, true);
+    },
+    limits: { fileSize: 5 * 1024 * 1024 } // 5MB file size limit
+});
 
 // Route for registration
 app.post('/register/:role', async (req, res) => {
-    const role = req.params.role;
-    console.log(role);
-    const data = req.body;
+    const { role } = req.params;
+    const { firstName, lastName, emailID, phoneNO, hashedPassword } = req.body;
+
     try {
-        if (role == 'Mentor') {
-            console.log(data);
-            user = await MentorModel.create(data);
-        }
-        else if (role == 'Mentee'){
-            user = await MenteeModel.create(data);
-        }
-        else {
-            console.log(`Invalid role:'${role}'hello`);
-            return res.status(404).json({ message: '404 Page Not Found' });
-        }
-        if (user) {
-            console.log("userCreated")
-            otp = otpSend(data);
-            otp = otp.toString().padStart(6, '0');
-            return res.status(200).json({ message: 'Registration successful, OTP sent', otp });
+        if (role === 'Mentor' || role === 'Mentee') {
+            const otp = await otpSend(req.body); // Await the resolved OTP
+            otpStore[emailID] = {
+                otp: otp.toString().padStart(6, '0'), // Convert the OTP to a string after it's resolved
+                tempUserData: { firstName, lastName, emailID, phoneNO, hashedPassword, role },
+                createdAt: Date.now()
+            };
+            console.log(otpStore);
+            return res.status(200).json({ message: 'OTP sent successfully' });
+        } else {
+            return res.status(404).json({ message: 'Invalid role' });
         }
     } catch (error) {
-        console.error('Registration Error:', error.message);
-        return res.status(500).json({ message: 'Internal Server Error', error: error.message });
+        return res.status(500).json({ message: 'Registration failed', error: error.message });
     }
 });
 
-// Route for OTP verification
-app.post('/register/:role/verification', (req, res) => {
-    const { receivedOTP } = req.body;
-    if (otp === receivedOTP) {
-        const token = generateToken(user);
-        res.cookie('authToken', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 }); // Cookie expires in 7 days
-        return res.status(200).json({ message: 'OTP verified successfully' });
+
+// Route to resend OTP
+app.post('/resendotp',async (req, res) => {
+    const { emailID } = req.body;
+
+    if (!otpStore[emailID]) return res.status(400).json({ message: 'No pending registration found' });
+
+    try {
+        otpStore[emailID].otp = await otpSend(req.body).toString().padStart(6, '0');
+        otpStore[emailID].createdAt = Date.now(); // Update OTP timestamp
+        return res.status(200).json({ message: 'OTP sent successfully' });
+    } catch (err) {
+        return res.status(500).json({ message: 'Error in sending OTP', error: err.message });
+    }
+});
+
+// Route for OTP verification and saving user data
+// Route for OTP verification and saving user data
+app.post('/register/:role/verification', async (req, res) => {
+    const { userOtp, emailID } = req.body; // Ensure 'userOtp' is correctly sent by the client
+    const userOtpData = otpStore[emailID];
+    console.log(userOtp);
+    console.log(userOtpData);
+    if (!userOtpData) {
+        return res.status(400).json({ message: 'No pending registration found' });
+    }
+
+    const { otp, tempUserData, createdAt } = userOtpData;
+
+    if (Date.now() - createdAt > 300000) { // 5-minute expiration time for OTP
+        delete otpStore[emailID]; // Clean up expired data
+        return res.status(400).json({ message: 'OTP expired. Please request a new one.' });
+    }
+
+    if (otp === userOtp) {
+        try {
+            let user;
+            const { role, firstName, lastName, emailID, phoneNO, hashedPassword } = tempUserData;
+
+            if (role === 'Mentor') {
+                user = await MentorModel.create({ firstName, lastName, emailID, phoneNO, hashedPassword });
+            } else if (role === 'Mentee') {
+                user = await MenteeModel.create({ firstName, lastName, emailID, phoneNO, hashedPassword });
+            }
+
+            const token = generateToken(user);
+            res.cookie('authToken', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 }); // Cookie expires in 7 days
+
+            delete otpStore[emailID]; // Clear OTP store after successful registration
+            return res.status(200).json({ message: 'OTP verified successfully, user registered', token });
+        } catch (error) {
+            return res.status(500).json({ message: 'Error saving user data', error: error.message });
+        }
     } else {
         return res.status(400).json({ message: 'Invalid OTP' });
     }

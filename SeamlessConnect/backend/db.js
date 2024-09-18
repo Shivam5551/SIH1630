@@ -1,30 +1,36 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
-mongoose.connect("url");
+const connectionString = process.env.REGISTRATION_DB;
 
+if (!connectionString) {
+  throw new Error('MongoDB connection string for registration is not defined in the environment variables.');
+}
 
-// Define schemas
+mongoose.connect(connectionString)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('Failed to connect to MongoDB', err));
+
+// Define schemas and models
 const mentorSchema = new mongoose.Schema({
-    firstName: { required: true, type: String },
-    lastName: { type: String },
-    emailID: { required: true, type: String, unique: true },
-    phoneNO: { required: true, type: String, unique: true },
-    hashedPassword: { required: true, type: String }
+  firstName: { type: String, required: true },
+  lastName: { type: String },
+  emailID: { type: String, required: true, unique: true },
+  phoneNO: { type: String, required: true, unique: true },
+  hashedPassword: { type: String, required: true }
 });
 
 const menteeSchema = new mongoose.Schema({
-    firstName: { required: true, type: String },
-    lastName: { type: String },
-    emailID: { required: true, type: String, unique: true },
-    phoneNO: { required: true, type: String, unique: true },
-    hashedPassword: { required: true, type: String }
+  firstName: { type: String, required: true },
+  lastName: { type: String },
+  emailID: { type: String, required: true, unique: true },
+  phoneNO: { type: String, required: true, unique: true },
+  hashedPassword: { type: String, required: true }
 });
 
-// Define models
 const MentorModel = mongoose.model('Mentor', mentorSchema);
 const MenteeModel = mongoose.model('Mentee', menteeSchema);
 
-export {
-    MentorModel,
-    MenteeModel
-};
+export { MentorModel, MenteeModel };
+

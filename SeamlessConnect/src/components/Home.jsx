@@ -51,6 +51,7 @@ const Navigation = () => {
   return (
     <div className="App">
       {/* Header */}
+      <div className='stick-top'>
       <header className="header">
         <div className="logo">Seamless Connect</div>
         <nav className={`nav ${isMenuOpen ? 'open' : ''}`} onMouseLeave={handleMouseLeaveMenu}>
@@ -76,6 +77,7 @@ const Navigation = () => {
           &#x22EE; {/* Triple dot symbol */}
         </button>
       </header>
+      </div>
       <hr/>
       {/* Body */}
       <main className="main">
@@ -160,13 +162,13 @@ const Navigation = () => {
           <p>Contact us at: <a href="mailto:contact@seamlessconnect.com">contact@seamlessconnect.com</a></p>
           <p>Follow us on:</p>
           <ul className="social-media-links">
-            <li><a href="#facebook" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a></li>
-            <li><a href="#twitter" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="#instagram" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a></li>
-            <li><a href="#linkedIn" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a></li>
+            <li><a href="#facebook" rel="noopener noreferrer"><i className="fab fa-facebook-f"></i></a></li>
+            <li><a href="#twitter" rel="noopener noreferrer"><i className="fab fa-twitter"></i></a></li>
+            <li><a href="#instagram" rel="noopener noreferrer"><i className="fab fa-instagram"></i></a></li>
+            <li><a href="#linkedIn" rel="noopener noreferrer"><i className="fab fa-linkedin-in"></i></a></li>
           </ul>
           <p><a href="#privacy-policy">Privacy Policy</a> | <a href="#terms-of-service">Terms of Service</a></p>
-          <p>Wasteland GGSIPU GTB4CEC Guru Tegh Bahadur 4th Centenary Engineering College</p>
+          <p>GTB4CEC Guru Tegh Bahadur 4th Centenary Engineering College</p>
         </div>
       </footer>
 

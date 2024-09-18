@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const OtpVerification = () => {
@@ -9,14 +9,17 @@ const OtpVerification = () => {
     const [isValid, setIsValid] = useState(true);
     const [isResending, setIsResending] = useState(false);
     const [resendMessage, setResendMessage] = useState('');
-    let formData = JSON.parse(localStorage.getItem('formData'));
+    const [formData, setFormData] = useState(null);
 
-    if (!formData) {
-        console.log("no data");
-        formData = "hello";
-        console.log(formData);
-    }
-
+    useEffect(() => {
+        const storedFormData = localStorage.getItem('formData');
+        if (storedFormData) {
+            setFormData(JSON.parse(storedFormData));
+        } else {
+            navigate('/failed');
+        }
+    }, [navigate]);
+    
     const handleChange = (e, index) => {
         const newOtp = [...otp];
         newOtp[index] = e.target.value;
@@ -47,11 +50,10 @@ const OtpVerification = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const otpString = otp.join('');
-
+    
         if (otpString.length === 6) {
-            console.log('OTP Submitted:', otpString);
             setIsValid(true);
-
+    
             // Call API to verify OTP
             try {
                 const response = await fetch(`http://localhost:3000/register/${role}/verification`, {
@@ -59,22 +61,20 @@ const OtpVerification = () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ otp: otpString }) // Include OTP in the request
+                    body: JSON.stringify({ userOtp: otpString, emailID: formData.emailID })
                 });
                 
                 const data = await response.json();
-
+    
                 if (response.ok) {
-                    // Check if the response contains a JWT or cookie
                     if (data.token) {
-                        // Store JWT in local storage
                         localStorage.setItem('cookie', data.token);
                     }
-
                     navigate(`/mentorTest`); // Redirect to the next page
                 } else {
                     setIsValid(false);
                     setResendMessage(data.message || 'Failed to verify OTP.');
+                    console.log('Response Error Data:', data); // Log the error data
                 }
             } catch (error) {
                 console.error('Error during OTP verification:', error);
@@ -89,25 +89,22 @@ const OtpVerification = () => {
     const handleResendOtp = async () => {
         setIsResending(true);
         setResendMessage('');
-
         try {
-            const response = await fetch(`http://localhost:3000/register/${role}/resendOTP`, {
-                method: "GET",
+            const response = await fetch('http://localhost:3000/resendotp', {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({ emailID: formData.emailID }),
             });
             const data = await response.json();
-
             if (response.ok) {
-                setResendMessage("OTP has been sent successfully.");
+                setResendMessage('OTP sent successfully.');
             } else {
-                setResendMessage(data.message || 'Failed to resend OTP.');
+                setResendMessage(data.message || 'Error resending OTP.');
             }
         } catch (error) {
-            console.error('Error during OTP resend:', error);
-            setResendMessage('An error occurred. Please try again later.');
+            setResendMessage('Error resending OTP.');
         } finally {
             setIsResending(false);
         }
@@ -117,7 +114,7 @@ const OtpVerification = () => {
         <div className="otp-container">
             <div className="main-otp-container">
                 <h2>OTP Verification</h2>
-                <p>Your OTP has been sent to your mail address.</p>
+                <p>Your OTP has been sent to your email address.</p>
                 <form onSubmit={handleSubmit}>
                     <div className="otp-inputs">
                         {otp.map((digit, index) => (
@@ -135,7 +132,12 @@ const OtpVerification = () => {
                     </div>
                     {!isValid && <p className="error-message">Please enter a valid 6-digit OTP.</p>}
                     <div className="button-container">
-                        <button onClick={handleResendOtp} disabled={isResending} className="submit-button">
+                        <button 
+                            type="button" 
+                            onClick={handleResendOtp} 
+                            disabled={isResending} 
+                            className="submit-button"
+                        >
                             {isResending ? 'Resending...' : 'Resend OTP'}
                         </button>
                         <button type="submit" className="submit-button">Verify</button>

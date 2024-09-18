@@ -16,6 +16,14 @@ hr {
   background-color: #333;
 }
 /* Header Styles */
+
+.stick-top {
+  margin: 0%;
+  padding: 0%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 .header {
   position: relative; /* Make header the parent container for absolute positioning */
   display: flex;
@@ -26,63 +34,9 @@ hr {
   color: #fff;
 }
 
-.login {
-  position: absolute; /* Allows precise positioning */
-  top: 50px; /* Adjust to fit below the login/signup button */
-  right: 10px; /* Align to the right side of the header */
-  background-color: #333; /* Background color of the dropdown */
-  border: 1px solid #444; /* Optional: Add border */
-  border-radius: 8px;
-  padding: 10px;
-  z-index: 200; /* Ensure dropdown appears above other elements */
+.nav {
   display: flex;
-  flex-direction: column;
-}
-
-.login a {
-  color: #fff;
-  padding: 8px;
-  text-decoration: none;
-}
-
-.login a:hover {
-  background-color: #444; /* Optional: Hover effect */
-  border-radius: 4px;
-}
-
-.nav a {
-  color: #fff;
-  padding: 10px;
-  text-decoration: none;
-}
-
-.nav a:hover {
-  text-decoration: underline;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .nav {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background-color: #333;
-    padding: 10px;
-    border-radius: 8px;
-    width: 200px;
-    z-index: 100;
-  }
-
-  .nav.open {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
+  gap: 15px;
 }
 
 .logo {
@@ -94,10 +48,6 @@ hr {
   font-weight: bold;
 }
 
-.nav {
-  display: flex;
-  gap: 15px;
-}
 
 /* Menu Toggle Button */
 .menu-toggle {
@@ -124,6 +74,70 @@ hr {
 .demo:hover {
   background-color: #fff;
 }
+
+
+
+.login {
+  position: absolute;
+  top: 11dvh; 
+  right: 12dvw; 
+  background-color: #333; 
+  border: 1px solid #444; 
+  border-radius: 15px;
+  width: 160px;
+  padding: 10px;
+  z-index: 200; 
+  display: flex;
+  flex-direction: column;
+}
+
+.login a {
+  color: #fff;
+  padding: 8px;
+  text-decoration: none;
+}
+
+.login a:hover {
+  background-color: rgb(2, 44, 34);
+  border-radius: 4px;
+}
+
+.nav a {
+  color: #fff;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .nav {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    width: 200px;
+    z-index: 100;
+  }
+
+  .nav.open {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
+
 
 /* Main Styles */
 .main {
@@ -180,7 +194,7 @@ hr {
   transition: opacity 0.5s ease-in-out;
   opacity: 1;
   z-index: 10;
-  font-size: 10vb;
+  font-size: 6dvw;
   text-align: center;
   font-weight: 500;
   font-family: cursive;
@@ -190,7 +204,7 @@ hr {
   transition: opacity 0.5s ease-in-out;
   opacity: 1;
   z-index: 10;
-  font-size: 4vb;
+  font-size: 3dvw;
   text-align: center;
   font-weight: 500;
   font-family: euclid_circular_medium, sans-serif,
@@ -451,63 +465,6 @@ hr {
   }
 }
 
-/* Responsive Styles */
-
-@media (max-width: 768px) {
-  .nav {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background-color: #333;
-    padding: 10px;
-    border-radius: 8px;
-    width: 200px;
-    z-index: 100;
-  }
-
-  .nav.open {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-}
-
-
-
-.login {
-  position: absolute; /* Allows precise positioning */
-  top: 50px; /* Adjust to fit below the login/signup button */
-  right: 10px; /* Align to the right side of the header */
-  background-color: #333; /* Background color of the dropdown */
-  border: 1px solid #444; /* Optional: Add border */
-  border-radius: 8px;
-  padding: 10px;
-  z-index: 200; /* Ensure dropdown appears above other elements */
-  display: flex;
-  flex-direction: column;
-}
-
-
-.login a:hover {
-  background-color: #444; /* Optional: Hover effect */
-  border-radius: 4px;
-}
-
-.nav a {
-  color: #fff;
-  padding: 10px;
-  text-decoration: none;
-}
-
-.nav a:hover {
-  text-decoration: underline;
-}
-
 /* login page */
 
 .centered-container {
@@ -737,8 +694,17 @@ hr {
   border-radius: 8px;
 }
 
-#confirmPassword {
-  margin: 10px 0px;
+.password-field {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 1% 0%;
+  margin-bottom: 1%;
+}
+
+.password {
+  margin-left: 0%;
+  margin-right: 1.2%;
 }
 
 button {
@@ -771,7 +737,7 @@ button:disabled {
 .signupToLoginButton {
   text-decoration: none;
   padding: 10px 30px;
-  margin-left: 40%;
+  margin-left: 23%;
   font-size: 16px;
   margin-top: 10px;  
   background-color: rgb(25, 154, 6);

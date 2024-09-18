@@ -1,10 +1,19 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
-mongoose.connect("url");
+const connectionString = process.env.CATEGORY_DB;
+
+if (!connectionString) {
+  throw new Error('MongoDB connection string for categories is not defined in the environment variables.');
+}
+
+mongoose.connect(connectionString);
 
 const CategorySchema = new mongoose.Schema({
-    categoryName: {type: String, required: true, unique: true}
+  categoryName: { type: String, required: true, unique: true }
 });
 
-export const GetCategories = mongoose.model("categories", CategorySchema);
+const GetCategories = mongoose.model('Category', CategorySchema);
 
+export { GetCategories };

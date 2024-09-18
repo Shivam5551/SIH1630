@@ -8,6 +8,8 @@ import digilockerLogo from '../assets/digilocker-logo.png';
 import { Link, useParams } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 import { Schema } from './types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const countries = getCountries().map(country => ({
   code: country,
@@ -38,6 +40,10 @@ const Signup = () => {
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [generatedPassword, setGeneratedPassword] = useState('');
+  const [showPassword, setShowPassword] = useState({
+    password: false,
+    confirmPassword: false,
+  });
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -63,67 +69,75 @@ const Signup = () => {
     setPhoneNumber(phoneNumber);  // Updates local state
     setFormData(prevData => ({ ...prevData, phoneNO: phoneNumber }));  // Updates formData
   };
-  
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormData(prevData => ({ ...prevData, [id]: value }));
   };
 
+  const togglePasswordVisibility = (field) => {
+    setShowPassword(prevState => ({
+      ...prevState,
+      [field]: !prevState[field],
+    }));
+  };
+
   const submit = async () => {
     const { firstName, lastName, emailID, phoneNO, password, confirmPassword } = formData;
-  
+
     // Password validation
     if (password !== confirmPassword) {
       alert('Password and Confirm Password must be the same.');
       return;
     }
-  
-    // Ensure the password is at least 8 characters long
+
     if (password.length < 8) {
       alert('Password must be at least 8 characters long.');
       return;
     }
-  
-    // Phone number validation
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailID)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
     if (!isValidPhoneNumber(phoneNO)) {
       alert('Invalid phone number.');
       return;
     }
-  
-    // Hash the password
+
     const hashedPassword = CryptoJS.SHA256(confirmPassword).toString();
-  
-    // Prepare the payload  
-    console.log(emailID)
     const createPayload = {
-      firstName: firstName,
-      lastName: lastName,
-      emailID: emailID,
+      firstName,
+      lastName,
+      emailID,
       phoneNO: String(phoneNO),
       hashedPassword,
     };
-  
-    // Validate the payload
+
+    // Validate the payload with Zod
     const parsed = Schema.safeParse(createPayload);
     if (!parsed.success) {
       const errorMessages = parsed.error.errors.map(err => `${err.path[0]}: ${err.message}`).join(', ');
       alert(`Validation error: ${errorMessages}`);
       return;
     }
-  
+
     try {
       const response = await fetch(`http://127.0.0.1:3000/register/${role}`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(createPayload),
       });
+
       const data = await response.json();
 
       if (response.ok && data.message) {
         localStorage.setItem('formData', JSON.stringify(createPayload));
-        // Navigate to the verification page
         navigate(`/register/${role}/verification`);
       } else {
         alert(data.message || 'Something went wrong. Please try again.');
@@ -136,8 +150,8 @@ const Signup = () => {
 
   if (role !== "Mentor" && role !== "Mentee") {
     return (
-      <div style={{display: 'flex', justifyContent: 'center'}}>
-        <h1 style={{color: "#ccc"}}>404 Page Not Found</h1>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <h1 style={{ color: "#ccc" }}>404 Page Not Found</h1>
       </div>
     );
   }
@@ -148,7 +162,7 @@ const Signup = () => {
         <source src={VideoPath1} type="video/mp4" />
       </video>
       <div className="signup-form">
-        <h1 className="heading" style={{color: 'white', textAlign: 'center'}}>{role} Signup</h1>
+        <h1 className="heading" style={{ color: 'white', textAlign: 'center' }}>{role} Signup</h1>
         <div className="name">
           <input
             id="firstName"
@@ -182,20 +196,32 @@ const Signup = () => {
           placeholder="Enter phone number"
           countrySelectComponent={(props) => <CustomCountrySelect {...props} />}
         />
-        <input
-          id="password"
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleInputChange}
-        />
-        <input
-          id="confirmPassword"
-          type="password"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleInputChange}
-        />
+        <div className="password-field">
+          <input
+            className='password'
+            id="password"
+            type={showPassword.password ? "text" : "password"}
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleInputChange}
+          />
+          <button type="button" onClick={() => togglePasswordVisibility('password')} className="password-toggle-btn">
+            <FontAwesomeIcon icon={showPassword.password ? faEye : faEyeSlash} />
+          </button>
+        </div>
+        <div className="password-field">
+          <input
+            className='password'
+            id="confirmPassword"
+            type={showPassword.confirmPassword ? "text" : "password"}
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
+            onChange={handleInputChange}
+          />
+          <button type="button" onClick={() => togglePasswordVisibility('confirmPassword')} className="password-toggle-btn">
+            <FontAwesomeIcon icon={showPassword.confirmPassword ? faEye : faEyeSlash} />
+          </button>
+        </div>
         <div className="buttons">
           <button type="button" onClick={handleGeneratePassword}>
             Generate Random Password
@@ -212,7 +238,7 @@ const Signup = () => {
             Signup Using Digilocker
           </button>
         </div>
-        <Link to={`/login/${role}`}><button type="button" className="signupToLoginButton">Login</button></Link>
+        <Link to={`/login/${role}`}><button type="button" className="signupToLoginButton">Already have an Account</button></Link>
       </div>
     </div>
   );
