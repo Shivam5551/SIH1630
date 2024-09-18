@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import VideoPath from '../assets/bg-video4.mp4';
-
+import MainLogo from '../assets/main-logo.png'
 
 const mentor = "Mentor";
 const mentee = "Mentee";
@@ -53,7 +53,9 @@ const Navigation = () => {
       {/* Header */}
       <div className='stick-top'>
       <header className="header">
-        <div className="logo">Seamless Connect</div>
+        <div className="logo">
+        <img className='logoImg' src={MainLogo}/>
+        <span>Seamless Connect</span></div>
         <nav className={`nav ${isMenuOpen ? 'open' : ''}`} onMouseLeave={handleMouseLeaveMenu}>
           <a href="/">Home</a>
           <a href="#calendar">Calender</a>

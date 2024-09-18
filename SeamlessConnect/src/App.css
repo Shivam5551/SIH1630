@@ -34,12 +34,16 @@ hr {
   color: #fff;
 }
 
+
+
 .nav {
   display: flex;
   gap: 15px;
 }
 
 .logo {
+  display: flex;
+  justify-content: space-around;
   font-size: 24px;
   color: #00bfff;
   font-family: monospace;
@@ -48,7 +52,14 @@ hr {
   font-weight: bold;
 }
 
+.logoImg {
+  height: 50px;
+  width: 50px;
+}
 
+.logo span {
+  padding-top: 10px;
+}
 /* Menu Toggle Button */
 .menu-toggle {
   display: none;
@@ -61,18 +72,26 @@ hr {
 }
 /* book a demmo button */
 .demo {
-  font-size: large;
+  font-size: 3.2dvh;
+  font-weight: bold;
+  font-family: monospace;
   padding: 0px 5px;
-  border-radius: 8px;
-  background-color: aqua;
-  box-shadow: 4px 4px 8px #ccc;
+  border-radius: 4px;
+  background-color: rgb(94, 224, 219);
+  box-shadow: 2px 2px 4px #ccc;
+  width: 24dvb;
   color: #212121;
-  border: 2px solid aqua;
   cursor: pointer;
 }
 
 .demo:hover {
-  background-color: #fff;
+  background-color: rgb(239, 68, 68);
+  border-radius: 20px;
+  box-shadow: 4px 4px 8px rgb(0, 200, 200);
+  font-family: monospace;
+  font-size: 3.5dvh;
+  font-weight: 400;
+  color: whitesmoke;
 }
 
 
