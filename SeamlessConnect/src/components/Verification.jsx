@@ -70,7 +70,15 @@ const OtpVerification = () => {
                     if (data.token) {
                         localStorage.setItem('cookie', data.token);
                     }
-                    navigate(`/mentorTest`); // Redirect to the next page
+                    if(role === "Mentor") {
+                        navigate(`/mentorverification`)
+                    }
+                    else if (role === "Mentee") {
+                        navigate(`/dashboard`)
+                    }
+                    else {
+                        navigate(`/failed`)
+                    }
                 } else {
                     setIsValid(false);
                     setResendMessage(data.message || 'Failed to verify OTP.');

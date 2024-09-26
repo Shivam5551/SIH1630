@@ -11,6 +11,7 @@ import { Failed } from './components/Falied';
 import NotEligible from './components/NotEligible';
 import WaitingPage from './components/VerificationWaitingPage';
 import './App.css';
+import MentorRegistration from './components/MentorRegistration';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path='/failed' element={<Failed/>}/>
         <Route path='/noteligible' element={<NotEligible/>}/>
         <Route path='/verification/waitingpage' element={<WaitingPage/>}/>
+        <Route path='/mentorverification' element={<MentorRegistration/>}/>
       </Routes>
     </Router>
   );

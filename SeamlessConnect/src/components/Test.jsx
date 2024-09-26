@@ -8,10 +8,16 @@ const Test = () => {
     const [category, setCategory] = useState('Select Category');
     const navigate = useNavigate();
 
+    // Fetch categories on component mount
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('http://localhost:3000/categories');
+                const cookie = localStorage.getItem('cookie');
+                const response = await fetch('http://localhost:3000/categories', {
+                    headers: {
+                        'Authorization': `Bearer ${cookie}`, // Authorization header with Bearer token
+                    }
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch categories');
                 }
@@ -25,16 +31,17 @@ const Test = () => {
         fetchCategories();
     }, []);
 
+    // Fetch questions when a category is selected
     useEffect(() => {
         if (!category || category === 'Select Category') return;
 
         const fetchQuestions = async () => {
             try {
-                const cookies = localStorage.getItem('cookie');
+                const cookie = localStorage.getItem('cookie');
                 const response = await fetch(`http://localhost:3000/getquestions/${category}`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Cookie': cookies,
+                        'Authorization': `Bearer ${cookie}`, // Authorization header with Bearer token
                     },
                     credentials: 'include',
                 });
@@ -42,8 +49,13 @@ const Test = () => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
+                
                 const data = await response.json();
-                setQuestions(data.questions); 
+                setQuestions(data.questions);
+
+                // Once questions are loaded, set user.test = true
+                await updateUserTestStatus();
+                
             } catch (error) {
                 console.error('Error fetching questions:', error);
             }
@@ -52,6 +64,29 @@ const Test = () => {
         fetchQuestions();
     }, [category]);
 
+    // Update user's test status to true
+    const updateUserTestStatus = async () => {
+        try {
+            const cookie = localStorage.getItem('cookie');
+            const response = await fetch('http://localhost:3000/updateTestStatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${cookie}`, // Authorization header with Bearer token
+                },
+                credentials: 'include',
+                body: JSON.stringify({ test: true }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update test status');
+            }
+        } catch (error) {
+            console.error('Error updating test status:', error);
+        }
+    };
+
+    // Handle radio button selection for questions
     const handleOptionChange = (questionId, optionKey) => {
         setAnswers(prevAnswers => ({
             ...prevAnswers,
@@ -59,10 +94,12 @@ const Test = () => {
         }));
     };
 
+    // Handle category change
     const handleCategoryChange = (event) => {
         setCategory(event.target.value);
     };
 
+    // Handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -72,12 +109,12 @@ const Test = () => {
         }));
 
         try {
-            const cookies = localStorage.getItem('cookie');
+            const cookie = localStorage.getItem('cookie');
             const response = await fetch(`http://localhost:3000/submitanswers/${category}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Cookie': cookies,
+                    'Authorization': `Bearer ${cookie}`, // Authorization header with Bearer token
                 },
                 credentials: 'include',
                 body: JSON.stringify({ answers: formattedAnswers }),
@@ -89,7 +126,7 @@ const Test = () => {
             
             const result = await response.json();
             if (result.score > 7) {
-                navigate('/submitdocs');
+                navigate('/mentorverification');
             } else {
                 navigate('/noteligible');
             }

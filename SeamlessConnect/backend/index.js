@@ -130,7 +130,7 @@ app.post('/register/:role/verification', async (req, res) => {
             const { role, firstName, lastName, emailID, phoneNO, hashedPassword } = tempUserData;
 
             if (role === 'Mentor') {
-                user = await MentorModel.create({ firstName, lastName, emailID, phoneNO, hashedPassword });
+                user = await MentorModel.create({ firstName, lastName, emailID, phoneNO, hashedPassword, test: false, filesUpload: false, documentVerified: false });
             } else if (role === 'Mentee') {
                 user = await MenteeModel.create({ firstName, lastName, emailID, phoneNO, hashedPassword });
             }
@@ -147,6 +147,23 @@ app.post('/register/:role/verification', async (req, res) => {
         return res.status(400).json({ message: 'Invalid OTP' });
     }
 });
+
+app.get('/userData/:role',verifyToken, async(req, res) => {
+    const role = req.params;
+    if(role != "Mentor" && role != "Mentee") {
+        return res.status(404).json({ message: "Invalid role"});
+    }
+    else {
+        if(role === "Mentor"){
+            const data = await MentorModel.find(req.user);
+            return res.status(200).json(data);
+        }
+        if(role === "Mentee"){
+            const data = await MenteeModel.find(req.user);
+            return res.status(200).json(data);
+        }
+    }
+})
 
 app.get('/categories', verifyToken,async (req, res) => {
     const categories = await GetCategories.find({});
@@ -172,6 +189,19 @@ app.post('/submitanswers/:category', verifyToken, async (req, res) => {
     } catch (error) {
         console.error('Error submitting answers:', error);
         return res.status(500).json({ error: "Unable to submit answers" });
+    }
+});
+
+app.post('/updateTestStatus', verifyToken, async (req, res) => {
+    try {
+        const { test } = req.body;
+        const user = await MentorModel.findById(req.user.id);
+        user.test = test;
+        await user.save();
+        return res.status(200).json({ message: 'Test status updated' });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Failed to update test status' });
     }
 });
 

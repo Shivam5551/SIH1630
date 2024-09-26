@@ -529,8 +529,8 @@ hr {
   font-size: 1rem; /* Use relative units for font size */
   margin-bottom: 15px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 100%; /* Full width of container */
+  border-radius: 8px;
+  width: 95%; /* Full width of container */
 }
 
 .loginPage .loginButton {
@@ -644,8 +644,8 @@ hr {
   align-items: center;
   background-size: cover;
   background-position: center;
-  height: 100vh;
-  width: 100vw;
+  height: 100dvh;
+  width: 100dvw;
 }
 
 .signup-form {
@@ -1104,3 +1104,82 @@ input[type="radio"] {
   background-color: #0056b3;
 }
 
+/* MentorRegistration  */
+/* Container Styling */
+.registration-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  height: 90dvh;
+  width: 100dvw;
+  padding: 0;
+}
+
+#sub-container-registration {
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+  padding: 20px;
+  box-shadow: 4px 4px 8px #ccc;
+  font-family: monospace;
+}
+
+/* Heading Styling */
+.Head nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4CAF50;
+  padding: 10px;
+  color: white;
+  border-radius: 8px 8px 0 0;
+}
+
+.Head h1 {
+  margin: 0;
+}
+
+.Head span {
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+}
+
+/* Description Text */
+p {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Verification Status */
+.verification-status {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.verification-status:before {
+  content: "Status: ";
+  font-weight: bold;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .registration-container {
+      width: 90%;
+  }
+
+  .button {
+      width: 100%;
+  }
+}

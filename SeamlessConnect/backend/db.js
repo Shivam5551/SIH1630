@@ -18,7 +18,10 @@ const mentorSchema = new mongoose.Schema({
   lastName: { type: String },
   emailID: { type: String, required: true, unique: true },
   phoneNO: { type: String, required: true, unique: true },
-  hashedPassword: { type: String, required: true }
+  hashedPassword: { type: String, required: true },
+  test: {required: true, type: Boolean},
+  filesUpload: {required: true, type: Boolean},
+  documentVerified: {required: true, type: Boolean},
 });
 
 const menteeSchema = new mongoose.Schema({

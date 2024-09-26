@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SubmitDocs = () => {
@@ -10,8 +10,31 @@ const SubmitDocs = () => {
         experience: '',
         additionalCertificates: '',
     });
+    const [userData, setUserData] = useState({});
     const navigate = useNavigate();
 
+    // Authorization and fetching user data
+    useEffect(() => {
+        async function getData() {
+            const cookie = localStorage.getItem('cookie');
+            if (!cookie) return navigate(`/login/Mentor`);  // Redirect to login if no cookie
+            const response = await fetch(`http://localhost:3000/userdata/Mentor`, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${cookie}`,
+                },
+            });
+            if (!response.ok) {
+                return navigate('/failed');  // Redirect if fetch fails
+            }
+            const data = await response.json();
+            setUserData(data);
+        }
+        getData();
+    }, [navigate]);
+
+    // Handle form input changes
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         setForm(prevForm => ({
@@ -20,6 +43,7 @@ const SubmitDocs = () => {
         }));
     };
 
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -32,7 +56,7 @@ const SubmitDocs = () => {
 
         try {
             const cookies = localStorage.getItem('cookie');
-            const response = await fetch("http://localhost:3000/subimtdocs", {
+            const response = await fetch("http://localhost:3000/submitdocs", {
                 method: "POST",
                 headers: {
                     "Cookie": cookies,
@@ -40,17 +64,15 @@ const SubmitDocs = () => {
                 body: formData,
                 credentials: "include"
             });
-            if(response.ok) {
-                navigate('/verification/waitingpage')
-            }
-            else {
-                navigate('/errorpage');
+            if (response.ok) {
+                navigate('/verification/waitingpage');  
+            } else {
+                navigate('/errorpage'); 
             }
         } catch (error) {
             console.log(error);
-            navigate('/errorpage')
+            navigate('/errorpage');  // Redirect to error page on catch
         }
-        navigate('/formsubmitted')
     };
 
     return (
@@ -136,6 +158,6 @@ const SubmitDocs = () => {
             </div>
         </div>
     );
-}
+};
 
 export default SubmitDocs;
